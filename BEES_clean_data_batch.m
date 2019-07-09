@@ -9,8 +9,8 @@ for j = 1:size(filemat,1)
     EEG = pop_loadset('filename',filename);
     EEG = eeg_checkset( EEG );
     % remove outer band of electrodes
-    EEG = pop_select( EEG,'nochannel',{'E17' 'E43' 'E48' 'E49' 'E56' 'E63' 
-        'E68' 'E73' 'E81' 'E88' 'E94' 'E99' 'E107' 'E113' 'E119' 'E120' 
+    EEG = pop_select( EEG,'nochannel',{'E17' 'E43' 'E48' 'E49' 'E56' 'E63'... 
+        'E68' 'E73' 'E81' 'E88' 'E94' 'E99' 'E107' 'E113' 'E119' 'E120' ...
         'E125' 'E126' 'E127' 'E128'});
     EEG = eeg_checkset( EEG );
     % loads the EEG data into a 3D matrix channels x time x trial
