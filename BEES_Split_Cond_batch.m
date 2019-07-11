@@ -1,4 +1,4 @@
-function [EEG_IT, EEG_IU, EEG_CT, EEG_CU, EEG_UN] = BEES_Split_Cond_batch(filemat, pathToFiles)
+function [EEG_IT, EEG_IU, EEG_CT, EEG_CU, EEG_UN] = BEES_Split_Cond_batch(filemat, pathToFiles, dirFolder)
     %% BEES ssvep data processing
     % Created 12/19/2017
     %
@@ -17,8 +17,8 @@ for j = 1:size(filemat,1)
     age = char(C(1,4));
     C2 = strsplit(Csubject,'.');
     Csubject = char(C2(1,1));
-    file = strcat(pathToFiles, 'Data files/',Csubject);
-    filename = strcat(pathToFiles, 'Data files/',Csubject, '.set');
+    file = strcat(dirFolder,Csubject);
+    filename = strcat(dirFolder, Csubject, '.set');
     
     
     EEG = pop_loadset('filename', filename);
