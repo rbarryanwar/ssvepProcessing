@@ -27,8 +27,8 @@
 %--------------------------------------------------%
 
 clear
-cd '/Users/BCDLAB1600/Desktop/BEES Study/Flicker processing_BEES/Data Files/'
-filematALL = dir('BEES_POST_TEST_*.set'); % This loads a struct of files of a specific condition e.g. (Pre)    
+cd '/Volumes/Ryan Data/FLICKER/BEES flicker/mff and set files/'
+filematALL = dir('BEES_*_177_9_*.set'); % This loads a struct of files of a specific condition e.g. (Pre)    
 filemat = {filematALL.name}'; % This takes the just the names from that struct and transposes the list so its in the correct format
 dirFolder = cd('../');dirFolder = strcat(dirFolder, '/');pathToFiles = cd(dirFolder);
 pathToFiles = strcat(pathToFiles,'/');
@@ -44,10 +44,10 @@ BEES_Split_Cond_batch(filemat, pathToFiles, dirFolder);
 %          trial saved as interpvec_filename       %
 %--------------------------------------------------%
 
-cd ../; cd 'Split_Condition/'
-filematALLSplit = dir('BEES_POST_TEST_*.set'); % This loads a struct of files of a specific condition e.g. (Pre)    
+cd ../; cd 'Split_Condition_CB2/'
+filematALLSplit = dir('BEES_*_177_9_*.set'); % This loads a struct of files of a specific condition e.g. (Pre)    
 filematSplit = {filematALLSplit.name}'; % This takes the just the names from that struct and transposes the list so its in the correct format
-pathToFilesSplit= strcat(pathToFiles,'Split_Condition/');
+pathToFilesSplit= strcat(pathToFiles,'Split_Condition_CB2/');
 
 %(filemat, path, Remove outer band? 0 or 1)
 BEES_clean_data_batch(filematSplit, pathToFilesSplit,0);

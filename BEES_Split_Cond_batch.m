@@ -15,6 +15,11 @@ for j = 1:size(filemat,1)
     subject = char(C(1,3));
     timepoint = char(C(1,2));
     age = char(C(1,4));
+    if size(C,2)==6
+        CB = char(C(1,6));
+    else
+        CB = 0;
+    end
     C2 = strsplit(Csubject,'.');
     Csubject = char(C2(1,1));
     file = strcat(dirFolder,Csubject);
@@ -47,8 +52,18 @@ for j = 1:size(filemat,1)
     if ~exist(strcat(pathToFiles, 'Split_Condition/'),'dir')
         makedir(strcat(pathToFiles, 'Split_Condition/'))
     end
+    
+        % check for the Split_Condition folder and create it if it doesn't
+    % exist
+    if ~exist(strcat(pathToFiles, 'Split_Condition_CB2/'),'dir')
+        makedir(strcat(pathToFiles, 'Split_Condition_CB2/'))
+    end
 
-    NEWpath= strcat(pathToFiles, 'Split_Condition/');
+    if CB == 'CB2.set'
+        NEWpath= strcat(pathToFiles, 'Split_Condition_CB2/');
+    else
+        NEWpath= strcat(pathToFiles, 'Split_Condition/');
+    end
     
     % Run through all 5 conditions and create epochs and save file
     Condition = 'Ind-trained';
