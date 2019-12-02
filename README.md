@@ -13,6 +13,6 @@ Option2:
     Once imported, I perform an FFT on each file and then compute baseline corrected amplitudes (BCA) using the FFT files.
     I used bins 2-3 and use the subtract method for my data.
     
-    After performing the BCA, I export those bca files to MATLAB
+   After performing the BCA, I export those bca files to MATLAB
 
 All of the included files are completely customizable.
