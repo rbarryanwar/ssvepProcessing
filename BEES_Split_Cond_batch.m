@@ -1,4 +1,4 @@
-function [EEG_IT, EEG_IU, EEG_CT, EEG_CU, EEG_UN] = BEES_Split_Cond_batch(filemat, pathToFiles, dirFolder)
+function [EEG_IT, EEG_IU, EEG_CT, EEG_CU, EEG_UN] = BEES_Split_Cond_batch(filemat, dirFolder)
     %% BEES ssvep data processing
     % Created 12/19/2017
     %
@@ -33,10 +33,10 @@ for j = 1:size(filemat,1)
     EEG  = pop_creabasiceventlist( EEG , 'AlphanumericCleaning', 'on', 'BoundaryNumeric', { -99 }, 'BoundaryString', { 'boundary' } );
     EEG = pop_editset(EEG, 'setname', strcat(file,'_chan_elist'));
     
-    % Bandpass filter from 0.5-30 Hz
+    % Bandpass filter from 1-30 Hz
     dataAK=double(EEG.data); 
     [alow, blow] = butter(6, 0.12); 
-    [ahigh, bhigh] = butter(3,0.002, 'high'); 
+    [ahigh, bhigh] = butter(3,0.004, 'high'); 
      
     dataAKafterlow = filtfilt(alow, blow, dataAK'); 
     dataAKafterhigh = filtfilt(ahigh, bhigh, dataAKafterlow)'; 
@@ -47,87 +47,89 @@ for j = 1:size(filemat,1)
     %save the filtered file
     EEG = pop_saveset( EEG, 'filename',strcat(file,'_filt.set'));
     
+    
+    cd('../')
     % check for the Split_Condition folder and create it if it doesn't
     % exist
-    if ~exist(strcat(pathToFiles, 'Split_Condition/'),'dir')
-        makedir(strcat(pathToFiles, 'Split_Condition/'))
+    if ~exist(strcat(cd, '/Split_Condition/'),'dir')
+        mkdir(strcat(cd, '/Split_Condition/'))
     end
     
         % check for the Split_Condition folder and create it if it doesn't
     % exist
-    if ~exist(strcat(pathToFiles, 'Split_Condition_CB2/'),'dir')
-        makedir(strcat(pathToFiles, 'Split_Condition_CB2/'))
+    if ~exist(strcat(cd, '/Split_Condition_CB2/'),'dir')
+        mkdir(strcat(cd, '/Split_Condition_CB2/'))
     end
 
     if CB == 'CB2.set'
-        NEWpath= strcat(pathToFiles, 'Split_Condition_CB2/');
+        NEWpath= strcat(cd, '/Split_Condition_CB2/');
     else
-        NEWpath= strcat(pathToFiles, 'Split_Condition/');
+        NEWpath= strcat(cd, '/Split_Condition/');
     end
     
     % Run through all 5 conditions and create epochs and save file
     Condition = 'Ind-trained';
-        EEG_IT  = pop_binlister( EEG , 'BDF', strcat(pathToFiles, 'Ind-trained.txt'), 'IndexEL',  1, 'SendEL2',...
+        EEG_IT  = pop_binlister( EEG , 'BDF', strcat(cd, '/Ind-trained.txt'), 'IndexEL',  1, 'SendEL2',...
         'EEG', 'Voutput', 'EEG' );
 
-        EEG_IT = pop_editset(EEG_IT, 'setname', strcat(pathToFiles, 'DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins'));
+        EEG_IT = pop_editset(EEG_IT, 'setname', strcat(cd, '/DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins'));
 
         % Create bin-based epochs from -100 to 6000ms, use pre for baseline
         % correction
         EEG_IT = pop_epochbin( EEG_IT , [-100.0  6000.0],  'pre'); 
-        EEG_IT = pop_editset(EEG_IT, 'setname', strcat(pathToFiles, 'DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins_be'));
+        EEG_IT = pop_editset(EEG_IT, 'setname', strcat(cd, '/DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins_be'));
 
         EEG_IT = pop_saveset( EEG_IT, 'filename',strcat(NEWpath, Csubject,'_',Condition,'.set'));
             
     Condition = 'Ind-untrained';
 
-        EEG_IU  = pop_binlister( EEG , 'BDF', strcat(pathToFiles, 'Ind-untrained.txt'), 'IndexEL',  1, 'SendEL2',...
+        EEG_IU  = pop_binlister( EEG , 'BDF', strcat(cd, '/Ind-untrained.txt'), 'IndexEL',  1, 'SendEL2',...
         'EEG', 'Voutput', 'EEG' );
 
-        EEG_IU = pop_editset(EEG_IU, 'setname', strcat(pathToFiles, 'DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins'));
+        EEG_IU = pop_editset(EEG_IU, 'setname', strcat(cd, '/DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins'));
 
         % Create bin-based epochs
         EEG_IU = pop_epochbin( EEG_IU , [-100.0  6000.0],  'pre'); 
-        EEG_IU = pop_editset(EEG_IU, 'setname', strcat(pathToFiles, 'DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins_be'));
+        EEG_IU = pop_editset(EEG_IU, 'setname', strcat(cd, '/DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins_be'));
 
         EEG_IU = pop_saveset( EEG_IU, 'filename',strcat(NEWpath, Csubject,'_',Condition,'.set'));
 
     Condition = 'Cat-trained';
 
-        EEG_CT  = pop_binlister( EEG , 'BDF', strcat(pathToFiles, 'Cat-trained.txt'), 'IndexEL',  1, 'SendEL2',...
+        EEG_CT  = pop_binlister( EEG , 'BDF', strcat(cd, '/Cat-trained.txt'), 'IndexEL',  1, 'SendEL2',...
         'EEG', 'Voutput', 'EEG' );
 
-        EEG_CT = pop_editset(EEG_CT, 'setname', strcat(pathToFiles, 'DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins'));
+        EEG_CT = pop_editset(EEG_CT, 'setname', strcat(cd, '/DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins'));
 
         % Create bin-based epochs
         EEG_CT = pop_epochbin( EEG_CT , [-100.0  6000.0],  'pre'); 
-        EEG_CT = pop_editset(EEG_CT, 'setname', strcat(pathToFiles, 'DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins_be'));
+        EEG_CT = pop_editset(EEG_CT, 'setname', strcat(cd, '/DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins_be'));
 
         EEG_CT = pop_saveset( EEG_CT, 'filename',strcat(NEWpath, Csubject,'_',Condition,'.set'));
 
     Condition = 'Cat-untrained';
 
-        EEG_CU  = pop_binlister( EEG , 'BDF', strcat(pathToFiles, 'Cat-untrained.txt'), 'IndexEL',  1, 'SendEL2',...
+        EEG_CU  = pop_binlister( EEG , 'BDF', strcat(cd, '/Cat-untrained.txt'), 'IndexEL',  1, 'SendEL2',...
         'EEG', 'Voutput', 'EEG' );
 
-        EEG_CU = pop_editset(EEG_CU, 'setname', strcat(pathToFiles, 'DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins'));
+        EEG_CU = pop_editset(EEG_CU, 'setname', strcat(cd, '/DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins'));
         
         % Create bin-based epochs
         EEG_CU = pop_epochbin( EEG_CU , [-100.0  6000.0],  'pre'); 
-        EEG_CU = pop_editset(EEG_CU, 'setname', strcat(pathToFiles, 'DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins_be'));
+        EEG_CU = pop_editset(EEG_CU, 'setname', strcat(cd, '/DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins_be'));
 
         EEG_CU = pop_saveset( EEG_CU, 'filename',strcat(NEWpath, Csubject,'_',Condition,'.set'));
 
     Condition = 'Untrained';
 
-        EEG_UN  = pop_binlister( EEG , 'BDF', strcat(pathToFiles, 'Untrained.txt'), 'IndexEL',  1, 'SendEL2',...
+        EEG_UN  = pop_binlister( EEG , 'BDF', strcat(cd, '/Untrained.txt'), 'IndexEL',  1, 'SendEL2',...
         'EEG', 'Voutput', 'EEG' );
 
-        EEG_UN = pop_editset(EEG_UN, 'setname', strcat(pathToFiles, 'DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins'));
+        EEG_UN = pop_editset(EEG_UN, 'setname', strcat(cd, '/DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins'));
         
         % Create bin-based epochs
         EEG_UN = pop_epochbin( EEG_UN , [-100.0  6000.0],  'pre'); 
-        EEG_UN = pop_editset(EEG_UN, 'setname', strcat(pathToFiles, 'DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins_be'));
+        EEG_UN = pop_editset(EEG_UN, 'setname', strcat(cd, '/DATA FILES/BEES_',num2str(subject),'_',num2str(age),'_chan_elist_filt_bins_be'));
 
         EEG_UN = pop_saveset( EEG_UN, 'filename',strcat(NEWpath, Csubject,'_',Condition,'.set'));
 
