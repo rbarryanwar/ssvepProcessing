@@ -1,20 +1,28 @@
-%--------------------------------------------------%
-% BEES STUDY DATA PROCESSING PIPELINE              %
-%                                                  %
+%---------------------------------------------------%
+% BEES STUDY DATA PROCESSING PIPELINE               %
+%                                                   %
+%       Before running this pipeline:               %
 %1. Create EEGLAB .set files for your data files    %
 %                                                   %
 %2. Downsample to 500Hz                             %
 %                                                   %
-%3. Set your current directory (cd- line 29) to the %
-%   folder containing your .set files               %
+%---------------------------------------------------%
 %                                                   %
-%4. Use the filematALL (line 31) to set the pattern %
+%       Setting up the pipeline                     %
+%                                                   %
+%1. Enter the directory to the folder containing    %
+%   your .set files  (Line 41)                      %
+%                                                   %
+%2. Enter the directory to the folder where your    %
+%   split .set files will go (Line 45)              %
+%                                                   %
+%3. Use the filematALL (line 49) to set the pattern %
 %   you want to use to look for files to split      %
 %                                                   %
-%4. Use the filematALLSplit (line 47) to set the    % 
+%4. Use the filematALLSplit (line 64) to set the    % 
 %   pattern you want to use to look for files to    %
-%   clean (these files should be in the             %
-%   Split_Condition folder from above)              %
+%   clean (this will probably be the same as what   %
+%   you used for step 3                             %
 %                                                   %
 %---------------------------------------------------%
 %% PART 1: filter, create event list, assign bins, %
@@ -36,7 +44,8 @@ cd(dirFolder)
 % 2. Enter the directory where you want the split files to be saved
 SplitFolder = '/Volumes/Ryan Data/FLICKER/BEES flicker/Split_Condition/'; 
 
-% 3. Enter the pattern you want to use to find files
+% 3. Enter the pattern you want to use to find files-- and use this same
+% pattern on line 64!!!!
 filematALL = dir('BEES_PRE_207_*.set'); % This loads a struct of files fitting a specific pattern   
 filemat = {filematALL.name}'; % This takes the just the names from that struct and transposes the list so its in the correct format
 
@@ -59,8 +68,7 @@ filematSplit = {filematALLSplit.name}'; % This takes the just the names from tha
 %(filemat, path, Remove outer band? 0 (no) or 1 (yes), Baby? 0 (no) or 1 (yes))
 BEES_clean_data_batch(filematSplit, SplitFolder,1,1);
 
-result_path = strcat(pathToFilesSplit,'CLEAN CHAN/')
-cd(result_path)
+
 %% 
 %--------------------------------------------------%
 %  The resulting files can then be viewed, artifact%
