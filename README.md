@@ -2,7 +2,7 @@
 
 ## These scripts can be used to process data from an ssvep task. 
 
-The file structure you should I is as follows (*you can use a different structure but will need to adjust the script*):
+The file structure I use is as follows (*you can use a different structure but will need to adjust the script*):
 
 * I have a main Study folder. In this folder I have the following folders: 'Data Files' and 'Split_Condition'
     * All of my raw data files are in Study folder/Data files
