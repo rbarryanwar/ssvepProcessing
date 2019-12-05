@@ -2,6 +2,13 @@
 
 These scripts can be used to process data from an ssvep task. 
 
+The file structure you should I is as follows (you can use a different structure but will need to adjust the script):
+
+I have a main Study folder. In this folder I have the following folders: 'Data Files' and 'Split_Condition'
+All of my raw data files are in Study folder/Data files
+All of my output from Step1 goes into Study folder/Split_Condition
+The event info files (Ind-trained.text, etc) are in the main Study folder
+
 Step1_BEES_data_pipeline.m uses BEES_Split_Cond_batch.m and BEES_clean_data_batch.m and combines the time domain pre-processing into a streamlined step-by-step file. Run this file in chunks (Run Section) to first split and clean your files and then detect artifacts and remove bad trials.
 
 Option1:
