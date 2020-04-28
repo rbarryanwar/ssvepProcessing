@@ -9,7 +9,7 @@ The file structure I use is as follows (*you can use a different structure but w
     * All of my output from Step1 goes into Study folder/Split_Condition
 * The event info files (Ind-trained.text, etc) are in the main Study folder
 
-**Step1_BEES_data_pipeline.m uses BEES_Split_Cond_batch.m and BEES_clean_data_batch.m and combines the time domain pre-processing into a streamlined step-by-step file. Run this file in chunks (Run Section) to first split and clean your files and then detect artifacts and remove bad trials.**
+**Step1_data_pipeline.m uses Split_Cond_batch.m and clean_data_batch.m and combines the time domain pre-processing into a streamlined step-by-step file. Run this file in chunks (Run Section) to first split and clean your files and then detect artifacts and remove bad trials.**
 
 Option1:
     Step2_BEES_FFT.m uses FFT_spectrum.m to perform a fast fourier transform on cleaned data. There are 2 parts to this   
