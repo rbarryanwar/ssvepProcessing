@@ -1,7 +1,7 @@
 %format: (filemat, path, Remove outer band?, Baby?)
 %enter 0 for N or 1 for Y for outerband
 %enter 1 for baby and 0 for adult
-function [outmat3d] = BEES_clean_data_batch(filemat, MYpath,outerband, Baby)
+function [outmat3d] = clean_data_batch(filemat, MYpath,outerband, Baby)
      % check for the CLEAN CHAN folder and create it if it doesn't
     % exist
     if ~exist(strcat(MYpath, 'CLEAN CHAN/'),'dir')
